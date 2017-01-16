@@ -1,6 +1,7 @@
 import re
 import datetime
 import pytz
+import json
 
 from pylons import config
 from pylons.i18n import gettext
@@ -324,3 +325,10 @@ def scheming_get_timezones(field):
         return to_options(validate_tz(timezones))
 
     return to_options(pytz.common_timezones)
+
+
+def scheming_convert_str_to_dict(value):
+    try:
+        return json.loads(value)
+    except ValueError:
+        return 'JSON cannot be decoded'

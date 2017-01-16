@@ -92,6 +92,7 @@ class _SchemingMixin(object):
             'scheming_get_timezones': helpers.scheming_get_timezones,
             'scheming_datetime_to_tz': helpers.scheming_datetime_to_tz,
             'scheming_datastore_choices': helpers.scheming_datastore_choices,
+            'scheming_convert_str_to_dict': helpers.scheming_convert_str_to_dict
             }
 
     def get_validators(self):

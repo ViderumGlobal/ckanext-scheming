@@ -14,14 +14,27 @@
   {%- for field in schema.dataset_fields -%}
     {%- if field.field_name not in exclude_fields
         and field.display_snippet is not none and pkg_dict[field.field_name] -%}
-      <tr>
-        <th scope="row" class="dataset-label">{{
-          h.scheming_language_text(field.label) }}</th>
-        <td class="dataset-details"{%
-          if field.display_property %} property="{{ field.display_property
-          }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
-          field=field, data=pkg_dict, schema=schema -%}</td>
-      </tr>
+      {% if field.field_name == 'dates' %}
+        {% set dates = h.scheming_convert_str_to_dict(pkg_dict.dates) %}
+        {% for subfield in field.subfields %}
+          {% for choice in subfield.choices %}
+            <tr>
+              <th scope="row" class="dataset-label">{{
+            h.scheming_language_text(choice.label) }}</th>
+              <td>{{ dates[loop.index0].date }}</td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        <tr>
+          <th scope="row" class="dataset-label">{{
+            h.scheming_language_text(field.label) }}</th>
+          <td class="dataset-details"{%
+            if field.display_property %} property="{{ field.display_property
+            }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
+            field=field, data=pkg_dict, schema=schema -%}</td>
+        </tr>
+      {% endif %}
     {%- endif -%}
   {%- endfor -%}
   {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
