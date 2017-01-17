@@ -16,14 +16,12 @@
         and field.display_snippet is not none and pkg_dict[field.field_name] -%}
       {% if field.field_name == 'dates' %}
         {% set dates = h.scheming_convert_str_to_dict(pkg_dict.dates) %}
-        {% for subfield in field.subfields %}
-          {% for choice in subfield.choices %}
-            <tr>
-              <th scope="row" class="dataset-label">{{
-            h.scheming_language_text(choice.label) }}</th>
-              <td>{{ dates[loop.index0].date }}</td>
-            </tr>
-          {% endfor %}
+        {% for n in range(dates|length) %}
+          <tr>
+            <th scope="row" class="dataset-label">{{
+          h.scheming_language_text(dates[n].role|capitalize) }}</th>
+            <td>{{ dates[n].date }}</td>
+          </tr>
         {% endfor %}
       {% else %}
         <tr>
