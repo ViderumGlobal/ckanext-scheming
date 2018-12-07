@@ -8,6 +8,8 @@
     'tag_string',
     'license_id',
     'owner_org',
+    'methodologie',
+    'territoire',
     ] -%}
 
 {% block package_additional_info %}
@@ -22,8 +24,26 @@
           }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
           field=field, data=pkg_dict, schema=schema -%}</td>
       </tr>
-    {%- endif -%}
+    {%- endif -%}    
   {%- endfor -%}
+
+  {% if pkg_dict.metadata_modified %}
+    <tr>
+      <th scope="row" class="dataset-label">{{ _("Last Updated") }}</th>
+      <td class="dataset-details">
+          {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_modified %}
+      </td>
+    </tr>
+  {% endif %}
+  {% if pkg_dict.metadata_created %}
+    <tr>
+      <th scope="row" class="dataset-label">{{ _("Created") }}</th>
+
+      <td class="dataset-details">
+          {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_created %}
+      </td>
+    </tr>
+  {% endif %}  
 
   {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
     <tr>
@@ -31,13 +51,14 @@
       <td class="dataset-details">{{ _(pkg_dict.state) }}</td>
     </tr>
   {% endif %}
+
   {% if pkg_dict.extras %}
-{% for extra in pkg_dict.extras %}
-<tr>
-    <th scope="row" class="dataset-label">{{ extra.key }}</th>
-    <td class="dataset-details">{{ extra.value }}</td>
-</tr>
-{% endfor %}
-{% endif %}
+    {% for extra in pkg_dict.extras %}
+      <tr>
+          <th scope="row" class="dataset-label">{{ extra.key }}</th>
+          <td class="dataset-details">{{ extra.value }}</td>
+      </tr>
+    {% endfor %}
+  {% endif %}
 
 {% endblock %}
