@@ -24,7 +24,7 @@
           }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
           field=field, data=pkg_dict, schema=schema -%}</td>
       </tr>
-    {%- endif -%}    
+    {%- endif -%}
   {%- endfor -%}
 
   {% if pkg_dict.metadata_modified %}
@@ -43,7 +43,7 @@
           {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_created %}
       </td>
     </tr>
-  {% endif %}  
+  {% endif %}
 
   {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
     <tr>
